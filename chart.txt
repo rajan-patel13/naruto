@@ -1,0 +1,22 @@
+---
+config:
+  layout: fixed
+---
+flowchart TB
+ subgraph s1["Client-Side"]
+        UI["User Interface (Web/Mobile App)"]
+  end
+ subgraph s2["Server-Side"]
+        API["Backend Server / API (FastAPI)"]
+        DepParse["Dependency Parsing (Python Worker)"]
+        Sentiment["Sentiment Analysis (Python Worker)"]
+        DB["Database (MongoDB)"]
+  end
+ subgraph subGraph2["External Dependencies"]
+        spacy["spaCy"]
+        vader["VADER"]
+  end
+    UI <--> API
+    API --> DepParse & DB
+    DepParse --> Sentiment & spacy
+    Sentiment --> vader & DB

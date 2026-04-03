@@ -1,0 +1,68 @@
+At its core, VADER has a dictionary (a lexicon) of thousands of words, where each word has been assigned a sentiment score. This lexicon was created by people who rated the "positiveness" or "negativeness" of each word.
+
+    A strongly positive word like "brilliant" or "amazing" has a high positive score.
+
+    A positive word like "good" or "nice" has a moderate positive score.
+
+    A neutral word like "phone" or "service" has a score near zero.
+
+    A negative word like "bad" or "slow" has a moderate negative score.
+
+    A strongly negative word like "disappointment" or "terrible" has a high negative score.
+
+------------------------------------------ About spaCy -------------------------------------
+
+Step 1: Tokenization (Tokenizer)
+
+This is the gateway to the pipeline. The tokenizer’s job is to break the raw text into tiny pieces called Tokens. This is far more advanced than just splitting the text by spaces.
+
+    It handles punctuation correctly (e.g., separating "dog" from ".").
+
+    It understands contractions (e.g., "don't" is split into two tokens: "do" and "n't").
+
+    It deals with URLs, emails, and other complex text formats.
+
+Input: "The quick brown fox..."
+Output: A sequence of Token objects: [The, quick, brown, fox, ...]
+
+Step 2: Part-of-Speech Tagging (Tagger)
+
+Next, the text (now as tokens) goes to the Tagger. This component is a pre-trained statistical model (a small neural network) that assigns a part-of-speech (POS) tag to every single token. It determines the grammatical role of each word in the context of the sentence.
+
+    The is a determiner (DET).
+
+    quick is an adjective (ADJ).
+
+    jumps is a verb (VERB).
+
+The Tagger is statistical, meaning it learned these patterns from being trained on millions of sentences of labeled text.
+
+Step 3: Dependency Parsing (Parser)
+
+This is one of spaCy's most powerful features. The Parser, another pre-trained model, analyzes the grammatical structure of the sentence to determine the relationships between words. It assigns a "head" and a dependency label to each token, effectively creating a tree structure for the sentence.
+
+For the phrase "quick brown fox," the parser figures out:
+
+    The main word (the "head") is fox.
+
+    quick is an adjectival modifier (amod) of fox.
+
+    brown is also an adjectival modifier (amod) of fox.
+
+This allows you to ask complex questions like, "What is the subject of the verb 'jumps'?" The parser tells you it's "fox" (nsubj).
+
+Step 4: Named Entity Recognition (NER)
+
+The final common station is the Named Entity Recognizer. This is another statistical model trained to find and label real-world concepts or "entities" in the text. It scans the tokens and groups them into meaningful chunks.
+
+If your text was "Apple is looking at buying a U.K. startup for $1 billion.", the NER would identify:
+
+    Apple as an ORGANIZATION.
+
+    U.K. as a GEOPOLITICAL ENTITY (a place).
+
+    $1 billion as MONEY.
+
+The Final Product: The Doc Object
+
+The most important thing to understand is that spaCy's output is not just text. It is a Doc object, which is a container full of all the annotations from the pipeline.
